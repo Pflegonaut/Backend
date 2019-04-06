@@ -1,26 +1,46 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { firebase } from "./firebase";
+import NavBar from "./Components/NavBar";
+import { ThemeProvider } from "styled-components";
+import theme from "./Theme/_main";
 
 class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      userName: "",
+      photoUrl: ""
+    }
+  }
+  logout = () => {
+    firebase.auth().signOut();
+  };
+
+  componentWillMount(){
+    this.getUserData()
+  }
+
+  getUserData = () => {
+    var user = firebase.auth().currentUser;
+    if (user) {
+      this.setState({
+        userName: user.displayName,
+        photoUrl: user.photoURL
+      })
+    } else {
+      return;
+    }
+  };
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <NavBar 
+            photoURL={this.state.photoUrl}
+            logout={this.logout}
+          />
+        </div>
+      </ThemeProvider>
     );
   }
 }
