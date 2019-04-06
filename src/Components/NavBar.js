@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignInAlt, faUser, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
-import { faGlasses } from "@fortawesome/free-solid-svg-icons";
-import { faTachometerAlt } from "@fortawesome/free-solid-svg-icons";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faPlusSquare, faSignOutAlt, faPencilAlt, faGlasses, faTachometerAlt, faBell } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import logo from "../Assets/logo.png";
 import styled from "styled-components";
@@ -31,8 +25,19 @@ const Dropdown = styled.ul`
   right: 10px;
   background-color: ${props => props.theme.primaryColor};
   z-index: 1;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   width: 20%;
+  color: white;
+`;
+
+
+const NotificationDropdown = styled.ul`
+  position: absolute;
+  right: 60px;
+  background-color: ${props => props.theme.primaryColor};
+  z-index: 1;
+  width: 20%;
+  color: white;
+  height: 40vh;
 `;
 
 class NavBar extends Component {
@@ -40,10 +45,13 @@ class NavBar extends Component {
     super();
     this.state = {
       isSignedIn: true,
-      dropdownShown: false
+      dropdownShown: false,
+      notificationsShown: false
     };
     this.showMenu = this.showMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
+    this.showNotifications = this.showNotifications.bind(this);
+    this.closeNotifications = this.closeNotifications.bind(this);
   }
   showMenu(e) {
     e.preventDefault();
@@ -58,6 +66,7 @@ class NavBar extends Component {
   }
 
   closeMenu(e) {
+   console.log(e);
     if (!this.dropdownMenu.contains(e.target)) {
       this.setState(
         {
@@ -65,6 +74,30 @@ class NavBar extends Component {
         },
         () => {
           document.removeEventListener("click", this.closeMenu);
+        }
+      );
+    }
+  }
+  showNotifications(e) {
+    e.preventDefault();
+    this.setState(
+      {
+        notificationsShown: true
+      },
+      () => {
+        document.addEventListener("click", this.closeNotifications);
+      }
+    );
+  }
+
+  closeNotifications(e) {
+    if (!this.notification.contains(e.target)) {
+      this.setState(
+        {
+          notificationsShown: false
+        },
+        () => {
+          document.removeEventListener("click", this.closeNotifications);
         }
       );
     }
@@ -103,7 +136,7 @@ class NavBar extends Component {
                 </NavLink>
               </li>
               <li className="nav-item ">
-                <NavLink className="nav-link" to="/home">
+                <NavLink className="nav-link" to="/eingabe">
                   <FontAwesomeIcon icon={faPlusSquare} className="icon" />
                   &nbsp;&nbsp;Eingabe
                 </NavLink>
@@ -124,7 +157,7 @@ class NavBar extends Component {
             </ul>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Notification>
+                <Notification onClick={this.showNotifications}>
                   <FontAwesomeIcon icon={faBell} className="icon" />
                 </Notification>
               </li>
@@ -169,6 +202,18 @@ class NavBar extends Component {
               </a>
             </li>
           </Dropdown>
+        ) : null}
+        {this.state.notificationsShown ? (
+          <NotificationDropdown
+            className="nav flex-column"
+            ref={e => {
+              this.notification = e;
+            }}
+          >
+            <li className="nav-item">
+              <p>Keine Nachrichten.. Schade.</p>
+            </li>
+          </NotificationDropdown>
         ) : null}
       </>
     );

@@ -22,6 +22,7 @@ class App extends Component {
 
   getUserData = () => {
     var user = firebase.auth().currentUser;
+    console.log(user);
     if (user) {
       this.setState({
         userName: user.displayName,
