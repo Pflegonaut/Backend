@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faPlusSquare, faSignOutAlt, faPencilAlt, faGlasses, faTachometerAlt, faBell } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
+import { connect } from 'react-redux';
 import logo from "../Assets/logo.png";
 import styled from "styled-components";
 
@@ -29,7 +30,6 @@ const Dropdown = styled.ul`
   color: white;
 `;
 
-
 const NotificationDropdown = styled.ul`
   position: absolute;
   right: 60px;
@@ -46,12 +46,19 @@ class NavBar extends Component {
     this.state = {
       isSignedIn: true,
       dropdownShown: false,
-      notificationsShown: false
+      notificationsShown: false,
+      photoURL: ""
     };
     this.showMenu = this.showMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
     this.showNotifications = this.showNotifications.bind(this);
     this.closeNotifications = this.closeNotifications.bind(this);
+  }
+
+  componentDidMount(){
+    this.setState({
+      photoURL: this.props.photoURL
+    })
   }
   showMenu(e) {
     e.preventDefault();
@@ -130,7 +137,7 @@ class NavBar extends Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <NavLink className="nav-link" to="/home">
+                <NavLink className="nav-link" to="/dashboard">
                   <FontAwesomeIcon icon={faTachometerAlt} className="icon" />
                   &nbsp;&nbsp;Dashboard
                 </NavLink>
@@ -143,13 +150,13 @@ class NavBar extends Component {
               </li>
 
               <li className="nav-item">
-                <NavLink className="nav-link" to="/termine">
+                <NavLink className="nav-link" to="/bearbeitung">
                   <FontAwesomeIcon icon={faPencilAlt} className="icon" />
                   &nbsp;&nbsp;Bearbeitung
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/einstellungen">
+                <NavLink className="nav-link" to="/kontrollieren">
                   <FontAwesomeIcon icon={faGlasses} className="icon" />
                   &nbsp;&nbsp;Kontrollieren
                 </NavLink>
@@ -184,7 +191,7 @@ class NavBar extends Component {
             }}
           >
             <li className="nav-item">
-              <a className="nav-link  no-style" href="/test">
+              <a className="nav-link  no-style" href="/profil">
                 <FontAwesomeIcon icon={faUser} className="icon" />
                 &nbsp;&nbsp;Profil
               </a>
@@ -220,4 +227,8 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+const mapStateToProps = (state) => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(NavBar);

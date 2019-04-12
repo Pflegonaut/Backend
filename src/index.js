@@ -1,31 +1,36 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import Router from './Router';
-import * as serviceWorker from './serviceWorker';
-import {firebase} from './firebase';
-import {history} from './Router';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import Router from "./Router";
+import * as serviceWorker from "./serviceWorker";
+import { ThemeProvider } from "styled-components";
+import theme from "./Theme/_main";
+import { createStore, applyMiddleware, compose } from "redux";
+import rootReducer from "./Store/reducers/rootReducer";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import { reduxFirestore, getFirestore } from "redux-firestore";
+import { reactReduxFirebase, getFirebase } from "react-redux-firebase";
+import firebase from "./config/firebaseConfig";
 
-let hasRendered = false;
-const renderApp = () => {
-    if(!hasRendered){
-        ReactDOM.render(<Router/>, document.getElementById('root'));
-        hasRendered = true;
-    }
-}
+const store = createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
+    reactReduxFirebase(firebase), // redux binding for firebase
+    reduxFirestore(firebase) // redux bindings for firestore
+  )
+);
 
+const jsx = (
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <Router />
+    </ThemeProvider>
+  </Provider>
+);
 
-firebase.auth().onAuthStateChanged((user) => {
-    if(user){
-      console.log('logged in');
-      history.push('/dashboard');
-      renderApp();
-    } else {
-      console.log('logged out');
-      history.push('/');
-      renderApp();
-    }
-  });
+ReactDOM.render(jsx, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

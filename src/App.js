@@ -5,19 +5,19 @@ import { ThemeProvider } from "styled-components";
 import theme from "./Theme/_main";
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       userName: "",
       photoUrl: ""
-    }
+    };
   }
   logout = () => {
     firebase.auth().signOut();
   };
 
-  componentWillMount(){
-    this.getUserData()
+  componentWillMount() {
+    this.getUserData();
   }
 
   getUserData = () => {
@@ -27,7 +27,7 @@ class App extends Component {
       this.setState({
         userName: user.displayName,
         photoUrl: user.photoURL
-      })
+      });
     } else {
       return;
     }
@@ -36,10 +36,7 @@ class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <div className="App">
-          <NavBar 
-            photoURL={this.state.photoUrl}
-            logout={this.logout}
-          />
+          <NavBar photoURL={this.props.user} logout={this.logout} />
         </div>
       </ThemeProvider>
     );
