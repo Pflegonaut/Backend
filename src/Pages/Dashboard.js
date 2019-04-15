@@ -1,16 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
-const Dashboard = props => {
+class Dashboard extends Component {
+  render() {
+    const { auth } = this.props;
+    //Protect the edit page and redirect to te login 
+    if (!auth.uid) return <Redirect to="/" />;
     return (
-        <>
-          <p>Dashboard</p>  
-        </>
+      <>
+        <p>Dashboard</p>
+        <p>Bald kannst du hier mehr Informationen sehen</p>
+      </>
     );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth
+  };
 };
 
-Dashboard.propTypes = {
-    
-};
-
-export default Dashboard;
+export default connect(mapStateToProps)(Dashboard);

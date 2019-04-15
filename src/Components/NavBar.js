@@ -1,10 +1,20 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faPlusSquare, faSignOutAlt, faPencilAlt, faGlasses, faTachometerAlt, faBell } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faPlusSquare,
+  faSignOutAlt,
+  faPencilAlt,
+  faGlasses,
+  faTachometerAlt,
+  faBell
+} from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
+import { signOut } from "../Store/actions/authActions";
 import logo from "../Assets/logo.png";
 import styled from "styled-components";
+
 
 const Nav = styled.nav`
   background-color: ${props => props.theme.primaryColor};
@@ -55,10 +65,10 @@ class NavBar extends Component {
     this.closeNotifications = this.closeNotifications.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({
       photoURL: this.props.photoURL
-    })
+    });
   }
   showMenu(e) {
     e.preventDefault();
@@ -73,7 +83,7 @@ class NavBar extends Component {
   }
 
   closeMenu(e) {
-   console.log(e);
+    console.log(e);
     if (!this.dropdownMenu.contains(e.target)) {
       this.setState(
         {
@@ -109,6 +119,7 @@ class NavBar extends Component {
       );
     }
   }
+
   render() {
     return (
       <>
@@ -172,7 +183,7 @@ class NavBar extends Component {
                 <ProfilePicture className="dropdownBtn" onClick={this.showMenu}>
                   <img
                     id="profilePic"
-                    src={this.props.photoURL}
+                    src={logo}
                     className="rounded-circle"
                     alt="profile"
                     width="40"
@@ -203,7 +214,7 @@ class NavBar extends Component {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/" onClick={this.props.logout}>
+              <a className="nav-link" href="/" onClick={this.props.signOut}>
                 <FontAwesomeIcon icon={faSignOutAlt} className="icon" />
                 &nbsp;&nbsp;Logout
               </a>
@@ -227,8 +238,21 @@ class NavBar extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user
-});
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    user: state.user,
+    auth: state.firebase.auth
+  };
+};
 
-export default connect(mapStateToProps)(NavBar);
+const mapDispatchToProps = dispatch => {
+  return {
+    signOut: () => dispatch(signOut())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavBar);

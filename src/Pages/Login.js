@@ -1,12 +1,14 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { signIn } from "../Store/actions/authActions";
 import styled from "styled-components";
 import logo from "../Assets/logo.png";
-import { shake, slideDown, hovering } from "../Theme/_animations";
+import { slideDown, hovering } from "../Theme/_animations";
 import { ThemeProvider } from "styled-components";
 import theme from "../Theme/_main";
-import { firebase, googleAuthProvider } from "../firebase";
+import { Redirect } from "react-router-dom";
 
-const LeftCol = styled.div`
+const Background = styled.div`
   background-color: ${props => props.theme.primaryColor};
   height: 100vh;
 `;
@@ -14,32 +16,23 @@ const LeftCol = styled.div`
 const Heading = styled.h1`
   color: white;
   font-size: 2rem;
-  animation: ${slideDown} 0.8s ease;
-`;
-
-const Instructions = styled.p`
-  color: white;
-  font-size: 1rem;
+  text-align: center;
   animation: ${slideDown} 0.8s ease;
 `;
 
 const Btn = styled.button`
-  background-color: ${props => props.theme.primaryColor};
-  color: ${props => props.theme.secondaryColor};
-  padding: .2rem 4rem;
-  font-size: .8rem;
+  background-color: ${props => props.theme.secondaryColor};
+  color: ${props => props.theme.primaryColor};
+  padding: 0.2rem 4rem;
+  font-size: 0.8rem;
   border: 0.2rem solid ${props => props.theme.secondaryColor};
   border-radius: 3rem;
   font-weight: 600;
   text-transform: uppercase;
   animation: ${slideDown} 0.8s ease;
   :hover {
-    background-color: ${props => props.theme.secondaryColor};
-    color: ${props => props.theme.primaryColor};
-    transition: all 0.5s ease;
-    animation: ${shake} 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
+    transition: all .2s ease;
+    transform: scale(1.1);
   }
   :focus {
     outline: none;
@@ -53,39 +46,93 @@ const StyledLogo = styled.img`
   animation-timing-function: ease-in-out;
 `;
 
-const Login = () => {
-  //Logging the user in with google
-  const startLogin = () => {
-    firebase.auth().signInWithPopup(googleAuthProvider);
+
+
+class Login extends Component {
+  state = {
+    email: "",
+    password: ""
   };
 
-  return (
-    <>
-      <ThemeProvider theme={theme}>
-        <div className="container-fluid">
-          <div className="row align-items-center">
-            <LeftCol className="col-sm align-content text-center">
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.signIn(this.state);
+  };
+
+  render() {
+    
+    const { auth } = this.props;
+    if (auth.uid) return <Redirect to="/dashboard" />;
+    return (
+      <>
+        <ThemeProvider theme={theme}>
+          <Background className="container-fluid">
+            <div className="row">
+              <div className="col-sm"></div>
+              <div className="col-sm">
               <StyledLogo
-                src={logo}
-                className="img-fluid"
-                alt="Pflegonaut Logo"
-                width="50%"
-              />
-              <Heading>Bist du bereit durchzustarten?</Heading>
-              <Instructions>
-                Log dich bitte mit deiner Google-Mail hier ein,
-                <br />
-                sodass die Reise beginnen kann.
-              </Instructions>
-              <Btn type="button" onClick={startLogin} href="/dashboard">
+              src={logo}
+              className="img-fluid mx-auto d-block"
+              alt="Pflegonaut Logo"
+              width="80%"
+            />
+            <Heading>Login</Heading>
+            <form onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1" className="text-white">Deine E-Mail-Adresse</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="exampleInputPassword1" className="text-white">Dein Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  placeholder="Password"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <Btn type="submit" classNanme="btn btn-primary">
                 Login
               </Btn>
-            </LeftCol>
-          </div>
-        </div>
-      </ThemeProvider>
-    </>
-  );
+            </form>
+              </div>
+              <div className="col-sm"></div>
+            </div>
+          </Background>
+        </ThemeProvider>
+      </>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    authError: state.auth.authError,
+    auth: state.firebase.auth
+  };
 };
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return {
+    signIn: creds => dispatch(signIn(creds))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

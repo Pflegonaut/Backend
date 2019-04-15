@@ -1,16 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
-const Profil = props => {
+class Profil extends Component {
+  render() {
+    const { auth } = this.props;
+    //Protect the edit page and redirect to te login 
+    if (!auth.uid) return <Redirect to="/" />;
     return (
-        <>
-            <p>Profil</p>
-        </>
+      <>
+        <p>Profil</p>
+        <p>Hier könnte ihre Werbung stehen</p>
+      </>
     );
-};
+  }
+}
 
-Profil.propTypes = {
-    
-};
+const mapStateToProps = state => {
+    return {
+      auth: state.firebase.auth
+    };
+  }; 
 
-export default Profil;
+export default connect(mapStateToProps)(Profil);

@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-
+import { Redirect } from "react-router-dom";
 const QuestionDetails = props => {
-  const { question } = props;
+  const { question, auth } = props;
+  //Protect the edit page and redirect to te login 
+  if (!auth.uid) return <Redirect to="/" />;
   if (question) {
     return (
       <div class="card">
@@ -31,7 +33,8 @@ const mapStateToProps = (state, ownProps) => {
   const questions = state.firestore.data.questions;
   const question = questions ? questions[id] : null;
   return {
-    question: question
+    question: question,
+    auth: state.firebase.auth
   };
 };
 

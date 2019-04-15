@@ -2,13 +2,15 @@ export const createQuestion = question => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     //async call to db
     const firestore = getFirestore();
+    const profil = getState().firebase.profile;
+    const authorId = getState().firebase.auth.uid;
     firestore
       .collection("questions")
       .add({
         ...question,
-        authorFirstName: "Richard",
-        authorLastName: "Menning",
-        authorId: 11,
+        authorFirstName: profil.firstname,
+        authorLastName: profil.lastname,
+        authorId: authorId,
         createdAt: new Date()
       })
       .then(() => {

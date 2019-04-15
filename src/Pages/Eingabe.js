@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import NavBar from "../Components/NavBar";
-import { createQuestion } from '../Store/actions/questionsActions'
-import { connect } from 'react-redux';
+import { createQuestion } from "../Store/actions/questionsActions";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { Btn } from "../Theme/_buttons";
 
 class Eingabe extends Component {
   constructor(props) {
@@ -29,6 +31,15 @@ class Eingabe extends Component {
     e.preventDefault();
     //Send Data to store
     this.props.createQuestion(this.state);
+    this.setState({
+      question: "",
+      answerOne: "",
+      answerTwo: "",
+      answerThree: "",
+      answerFour: "",
+      correctAnswer: 1,
+      lernsektor: "Medizin"
+    });
   };
 
   handleQuestionChange = e => {
@@ -74,10 +85,13 @@ class Eingabe extends Component {
   };
 
   render() {
+    const { auth } = this.props;
+    //Protect the edit page and redirect to te login
+    if (!auth.uid) return <Redirect to="/" />;
     return (
       <>
         <div className="container">
-          <div className="row">
+          <div className="row mt-4">
             <div className="col-sm" />
             <div className="col-sm">
               <form onSubmit={this.sendQuestion}>
@@ -158,7 +172,7 @@ class Eingabe extends Component {
                   <option value="Rücken">Rücken</option>
                   <option value="Gehirn">Gehirn</option>
                 </select>
-                <input type="submit" className="mt-3" />
+                <Btn className="mt-4">Speichern</Btn>
               </form>
             </div>
             <div className="col-sm" />
@@ -169,10 +183,19 @@ class Eingabe extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = state => {
   return {
-    createQuestion: (question) => dispatch(createQuestion(question))
-  }
-}
+    auth: state.firebase.auth
+  };
+};
 
-export default connect(null, mapDispatchToProps)(Eingabe);
+const mapDispatchToProps = dispatch => {
+  return {
+    createQuestion: question => dispatch(createQuestion(question))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Eingabe);

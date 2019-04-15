@@ -3,11 +3,13 @@ import QuestionCard from "../Components/QuestionCard";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class Bearbeitung extends Component {
   render() {
-    const { questions } = this.props;
+    const { questions, auth } = this.props;
+    //Protect the edit page and redirect to te login 
+    if (!auth.uid) return <Redirect to="/" />;
     return (
       <>
         <div class="container-fluid">
@@ -34,7 +36,8 @@ class Bearbeitung extends Component {
 const mapStateToProps = state => {
   console.log("state", state);
   return {
-    questions: state.firestore.ordered.questions
+    questions: state.firestore.ordered.questions,
+    auth: state.firebase.auth
   };
 };
 
