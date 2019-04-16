@@ -10,16 +10,14 @@ class Profil extends Component {
     return (
       <>
         <p>Profil</p>
-        <p>Hier könnte ihre Werbung stehen</p>
+        <p>Vorname</p>
+        <p>Nachname</p>
+        <p>Mail</p>
       </>
     );
   }
 }
 
-const mapStateToProps = state => {
-    return {
-      auth: state.firebase.auth
-    };
-  }; 
 
-export default connect(mapStateToProps)(Profil);
+
+export default connect()(Profil);

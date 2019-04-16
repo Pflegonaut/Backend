@@ -4,6 +4,16 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Link, Redirect } from "react-router-dom";
+import styled from 'styled-components';
+
+const LinkTo = styled(Link)`
+  color: black;
+  :hover{
+    color: ${props => props.theme.primaryColor};
+    text-decoration: none;
+  }
+`;
+
 
 class Bearbeitung extends Component {
   render() {
@@ -19,9 +29,9 @@ class Bearbeitung extends Component {
               {questions &&
                 questions.map(question => {
                   return (
-                    <Link to={"/details/" + question.id}>
+                    <LinkTo to={"/details/" + question.id}>
                       <QuestionCard question={question} key={question.id} />
-                    </Link>
+                    </LinkTo>
                   );
                 })}
             </div>

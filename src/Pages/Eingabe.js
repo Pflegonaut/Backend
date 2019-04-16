@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import NavBar from "../Components/NavBar";
 import { createQuestion } from "../Store/actions/questionsActions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";

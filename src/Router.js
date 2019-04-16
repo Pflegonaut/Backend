@@ -30,7 +30,7 @@ class Router extends Component {
           <Route path="/bearbeitung" component={Bearbeitung} />
           <Route path="/details/:id" component={QuestionDetails} />
           <Route path="/kontrollieren" component={Kontrollieren} />
-          <Route path="/profil" component={Profil} />
+          <Route path="/profil/:uid" component={Profil} />
           <Route path="/pflegonautwerden" component={signUp} />
         </Switch>
       </BrowserRouter>
