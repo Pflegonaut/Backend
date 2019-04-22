@@ -5,6 +5,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Link, Redirect } from "react-router-dom";
 import styled from 'styled-components';
+import Filter from "../Components/Filter";
 
 const LinkTo = styled(Link)`
   color: black;
@@ -35,7 +36,9 @@ class Bearbeitung extends Component {
                   );
                 })}
             </div>
-            <div className="col-sm" />
+            <div className="col-sm">
+                <Filter/>
+            </div>
           </div>
         </div>
       </>

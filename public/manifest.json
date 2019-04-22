@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Pflegonauten - Backend",
+  "name": "The Backend for the application",
   "icons": [
     {
       "src": "favicon.ico",

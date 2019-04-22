@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import { signOut } from "../Store/actions/authActions";
 import logo from "../Assets/logo.png";
 import styled from "styled-components";
+import Notifications from "./Notifications";
 
 
 const Nav = styled.nav`
@@ -48,6 +49,7 @@ const NotificationDropdown = styled.ul`
   width: 20%;
   color: white;
   height: 40vh;
+  overflow-y: scroll;
 `;
 
 class NavBar extends Component {
@@ -228,9 +230,7 @@ class NavBar extends Component {
               this.notification = e;
             }}
           >
-            <li className="nav-item">
-              <p>Keine Nachrichten.. Schade.</p>
-            </li>
+          <Notifications/>
           </NotificationDropdown>
         ) : null}
       </>

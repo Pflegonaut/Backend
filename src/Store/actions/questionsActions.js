@@ -4,6 +4,8 @@ export const createQuestion = question => {
     const firestore = getFirestore();
     const profil = getState().firebase.profile;
     const authorId = getState().firebase.auth.uid;
+
+    
     firestore
       .collection("questions")
       .add({
