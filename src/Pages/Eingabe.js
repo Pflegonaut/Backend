@@ -14,16 +14,11 @@ class Eingabe extends Component {
       answerThree: "",
       answerFour: "",
       correctAnswer: 1,
-      lernsektor: "Medizin"
+      lernsektor: "Medizin",
+      notiz: "",
+      schwierigkeitslevel: "leicht",
+      lernbereich: "bewegungsapperat"
     };
-    this.sendQuestion = this.sendQuestion.bind(this);
-    this.handleQuestionChange = this.handleQuestionChange.bind(this);
-    this.handleAnswerOneChange = this.handleAnswerOneChange.bind(this);
-    this.handleAnswerTwoChange = this.handleAnswerTwoChange.bind(this);
-    this.handleAnswerThreeChange = this.handleAnswerThreeChange.bind(this);
-    this.handleAnswerFourChange = this.handleAnswerFourChange.bind(this);
-    this.handleCorrectAnswerChange = this.handleCorrectAnswerChange.bind(this);
-    this.handleLernsektorChange = this.handleLernsektorChange.bind(this);
   }
 
   sendQuestion = e => {
@@ -37,49 +32,16 @@ class Eingabe extends Component {
       answerThree: "",
       answerFour: "",
       correctAnswer: 1,
-      lernsektor: "Medizin"
+      lernsektor: "Medizin",
+      notiz: "",
+      schwierigkeitslevel: "leicht",
+      lernbereich: "bewegungsapperat"
     });
   };
 
-  handleQuestionChange = e => {
+  handleChange = e => {
     this.setState({
-      question: e.target.value
-    });
-  };
-
-  handleAnswerOneChange = e => {
-    this.setState({
-      answerOne: e.target.value
-    });
-  };
-
-  handleAnswerTwoChange = e => {
-    this.setState({
-      answerTwo: e.target.value
-    });
-  };
-
-  handleAnswerThreeChange = e => {
-    this.setState({
-      answerThree: e.target.value
-    });
-  };
-
-  handleAnswerFourChange = e => {
-    this.setState({
-      answerFour: e.target.value
-    });
-  };
-
-  handleCorrectAnswerChange = e => {
-    this.setState({
-      correctAnswer: e.target.value
-    });
-  };
-
-  handleLernsektorChange = e => {
-    this.setState({
-      lernsektor: e.target.value
+      [e.target.id]: e.target.value
     });
   };
 
@@ -95,89 +57,132 @@ class Eingabe extends Component {
             <div className="col-sm">
               <form onSubmit={this.sendQuestion}>
                 <div className="form-group">
-                  <label for="formGroupExampleInput">Frage</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="formGroupExampleInput"
-                    placeholder="Frage …"
+                  <label for="question">Frage</label>
+                  <textarea
+                    class="form-control"
+                    id="question"
+                    onChange={this.handleChange}
                     value={this.state.question}
-                    onChange={this.handleQuestionChange}
-                    required
                   />
                 </div>
                 <div className="form-group">
-                  <label for="formGroupExampleInput2">Antwort 1:</label>
+                  <label for="answerOne">Antwort 1:</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="formGroupExampleInput2"
+                    id="answerOne"
                     placeholder="Antwort"
                     value={this.state.answerOne}
-                    onChange={this.handleAnswerOneChange}
+                    onChange={this.handleChange}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label for="formGroupExampleInput2">Antwort 2:</label>
+                  <label for="answerTwo">Antwort 2:</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="formGroupExampleInput2"
+                    id="answerTwo"
                     placeholder="Antwort"
                     value={this.state.answerTwo}
-                    onChange={this.handleAnswerTwoChange}
+                    onChange={this.handleChange}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label for="formGroupExampleInput2">Antwort 3:</label>
+                  <label for="answerThree">Antwort 3:</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="formGroupExampleInput2"
+                    id="answerThree"
                     placeholder="Antwort"
                     value={this.state.answerThree}
-                    onChange={this.handleAnswerThreeChange}
+                    onChange={this.handleChange}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label for="formGroupExampleInput2">Antwort 4:</label>
+                  <label for="answerFour">Antwort 4:</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="formGroupExampleInput2"
+                    id="answerFour"
                     placeholder="Antwort"
                     value={this.state.answerFour}
-                    onChange={this.handleAnswerFourChange}
+                    onChange={this.handleChange}
                     required
                   />
                 </div>
-                <label for="form-control">Richtige Antwort</label>
+                <div className="form-group">
+                  <label for="correctAnswer">Richtige Antwort</label>
+                  <select
+                    className="form-control"
+                    id="correctAnswer"
+                    value={this.state.correctAnswer}
+                    onChange={this.handleChange}
+                    required
+                  >
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label for="lernsektor">Lernsektor</label>
+                  <select
+                    className="form-control"
+                    value={this.state.lernsektor}
+                    id="lernsektor"
+                    onChange={this.handleChange}
+                    required
+                  >
+                    <option value="Medizin">Medizin</option>
+                    <option value="Magen">Magen</option>
+                    <option value="Rücken">Rücken</option>
+                    <option value="Gehirn">Gehirn</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label for="schwierigkeitslevel">Schwierigkeitslevel</label>
+                  <select
+                    className="form-control"
+                    value={this.state.schwierigkeitslevel}
+                    id="schwierigkeitslevel"
+                    onChange={this.handleChange}
+                    required
+                  >
+                    <option value="leicht">leicht</option>
+                    <option value="mittel">mittel</option>
+                    <option value="schwer">schwer</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                <label for="lernbereich">Lernbereich</label>
                 <select
                   className="form-control"
-                  value={this.state.correctAnswer}
-                  onChange={this.handleCorrectAnswerChange}
+                  value={this.state.lernbereich}
+                  id="lernbereich"
+                  onChange={this.handleChange}
                   required
                 >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-                <label for="form-control">Lernsektor</label>
-                <select
-                  className="form-control"
-                  value={this.state.lernsektor}
-                  onChange={this.handleLernsektorChange}
-                  required
-                >
-                  <option value="Medizin">Medizin</option>
-                  <option value="Magen">Magen</option>
-                  <option value="Rücken">Rücken</option>
-                  <option value="Gehirn">Gehirn</option>
-                </select>
+                  <option value="bewegungsaparat">bewegungsaparat</option>
+                  <option value="innere Organe">innere Organe</option>
+                  <option value="histologie">histologie</option>
+                  <option value="genetik">genetik</option>
+                  <option value="neurologie">neurologie</option>
+                  <option value="nephrologie">nephrologie</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label for="notiz">Notiz</label>
+                  <textarea
+                    class="form-control"
+                    id="notiz"
+                    onChange={this.handleChange}
+                    value={this.state.notiz}
+                  />
+                </div>
                 <Btn className="mt-4">Speichern</Btn>
               </form>
             </div>
