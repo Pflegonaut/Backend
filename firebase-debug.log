@@ -1,0 +1,38 @@
+[debug] [2019-04-24T13:34:32.836Z] ----------------------------------------------------------------------
+[debug] [2019-04-24T13:34:32.839Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2019-04-24T13:34:32.839Z] CLI Version:   6.5.2
+[debug] [2019-04-24T13:34:32.839Z] Platform:      darwin
+[debug] [2019-04-24T13:34:32.839Z] Node Version:  v10.13.0
+[debug] [2019-04-24T13:34:32.848Z] Time:          Wed Apr 24 2019 15:34:32 GMT+0200 (GMT+02:00)
+[debug] [2019-04-24T13:34:32.848Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-04-24T13:34:32.861Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-04-24T13:34:32.861Z] > authorizing via signed-in user
+[debug] [2019-04-24T13:34:32.861Z] [iam] checking project pflegonaut-backend for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasedatabase.instances.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2019-04-24T13:34:32.862Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-04-24T13:34:32.863Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-04-24T13:34:33.040Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-24T13:34:33.052Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/pflegonaut-backend:testIamPermissions  
+
+[debug] [2019-04-24T13:34:34.711Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-24T13:34:34.713Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/pflegonaut-backend  
+ 
+[debug] [2019-04-24T13:34:34.982Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'pflegonaut-backend'...
+[info] 
+[info] i  deploying database, storage, functions, hosting
+[info] i  database: checking rules syntax...
+[debug] [2019-04-24T13:34:36.413Z] >>> HTTP REQUEST PUT https://pflegonaut-backend.firebaseio.com/.settings/rules.json?dryRun=true  
+ {
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": {
+    ".read": false,
+    ".write": false
+  }
+}
+[debug] [2019-04-24T13:34:37.009Z] <<< HTTP RESPONSE 200
+[info] ✔  database: rules syntax for database pflegonaut-backend is valid
+[debug] [2019-04-24T13:34:37.011Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/pflegonaut-backend  
+ 

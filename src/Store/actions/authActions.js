@@ -43,7 +43,8 @@ export const signUp = newUser => {
           .doc(resp.user.uid)
           .set({
             firstname: newUser.firstname,
-            lastname: newUser.lastname
+            lastname: newUser.lastname,
+            role: newUser.role
           });
       }).then(() => {
         dispatch({ type: 'SIGNUP_SUCCESS'})

@@ -41,11 +41,12 @@ const StyledLogo = styled.img`
 `;
 
 class signUpUser extends Component {
-  state = {
+ state = {
     firstname: "",
     lastname: "",
     email: "",
-    password: ""
+    password: "",
+    role: "redakteur"
   };
 
   handleChange = e => {
@@ -62,19 +63,20 @@ class signUpUser extends Component {
   render() {
     const { auth } = this.props;
     //Protect the edit page and redirect to te login
-    if (auth.uid) return <Redirect to="/dashboard" />;
+    if (!auth.uid) return <Redirect to="/" />;
+    console.log(this.props);
     return (
       <>
         <Background className="container-fluid">
           <div className="row">
             <div className="col-sm" />
             <div className="col-sm">
-            <StyledLogo
-              src={logo}
-              className="img-fluid mx-auto d-block"
-              alt="Pflegonaut Logo"
-              width="80%"
-            />
+              <StyledLogo
+                src={logo}
+                className="img-fluid mx-auto d-block"
+                alt="Pflegonaut Logo"
+                width="80%"
+              />
               <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                   <label for="exampleInputEmail1">Email Addresse</label>
@@ -119,6 +121,19 @@ class signUpUser extends Component {
                     placeholder="Nachname"
                     onChange={this.handleChange}
                   />
+                </div>
+                <div className="form-group">
+                  <label for="exampleInputPassword1">Nutzerrolle</label>
+                  <select
+                    className="form-control"
+                    id="role"
+                    value={this.state.role}
+                    onChange={this.handleChange}
+                  >
+                    <option value="redakteur">Redakteur</option>
+                    <option value="lehrer">Lehrer</option>
+                    <option value="admin">Admin</option>
+                  </select>
                 </div>
                 <Btn type="submit" className="btn btn-primary">
                   Submit

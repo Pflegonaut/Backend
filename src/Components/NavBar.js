@@ -16,7 +16,6 @@ import logo from "../Assets/logo.png";
 import styled from "styled-components";
 import Notifications from "./Notifications";
 
-
 const Nav = styled.nav`
   background-color: ${props => props.theme.primaryColor};
 `;
@@ -85,7 +84,6 @@ class NavBar extends Component {
   }
 
   closeMenu(e) {
-    console.log(e);
     if (!this.dropdownMenu.contains(e.target)) {
       this.setState(
         {
@@ -209,12 +207,14 @@ class NavBar extends Component {
                 &nbsp;&nbsp;Profil
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link " href="/test">
-                <FontAwesomeIcon icon={faPlusSquare} className="icon" />
-                &nbsp;&nbsp;Redakteur hinzufügen
-              </a>
-            </li>
+            {this.props.role && this.props.role === "admin" ? (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/pflegonautwerden">
+                  <FontAwesomeIcon icon={faPlusSquare} className="icon" />
+                  &nbsp;&nbsp;Redakteur hinzufügen
+                </NavLink>
+              </li>
+            ) : null}
             <li className="nav-item">
               <a className="nav-link" href="/" onClick={this.props.signOut}>
                 <FontAwesomeIcon icon={faSignOutAlt} className="icon" />
@@ -230,7 +230,7 @@ class NavBar extends Component {
               this.notification = e;
             }}
           >
-          <Notifications/>
+            <Notifications />
           </NotificationDropdown>
         ) : null}
       </>
@@ -239,9 +239,8 @@ class NavBar extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    user: state.user,
+    role: state.firebase.profile.role,
     auth: state.firebase.auth
   };
 };

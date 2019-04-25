@@ -103,6 +103,7 @@ class Eingabe extends Component {
                     placeholder="Frage …"
                     value={this.state.question}
                     onChange={this.handleQuestionChange}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -114,6 +115,7 @@ class Eingabe extends Component {
                     placeholder="Antwort"
                     value={this.state.answerOne}
                     onChange={this.handleAnswerOneChange}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -125,6 +127,7 @@ class Eingabe extends Component {
                     placeholder="Antwort"
                     value={this.state.answerTwo}
                     onChange={this.handleAnswerTwoChange}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -136,6 +139,7 @@ class Eingabe extends Component {
                     placeholder="Antwort"
                     value={this.state.answerThree}
                     onChange={this.handleAnswerThreeChange}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -147,6 +151,7 @@ class Eingabe extends Component {
                     placeholder="Antwort"
                     value={this.state.answerFour}
                     onChange={this.handleAnswerFourChange}
+                    required
                   />
                 </div>
                 <label for="form-control">Richtige Antwort</label>
@@ -154,6 +159,7 @@ class Eingabe extends Component {
                   className="form-control"
                   value={this.state.correctAnswer}
                   onChange={this.handleCorrectAnswerChange}
+                  required
                 >
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -165,6 +171,7 @@ class Eingabe extends Component {
                   className="form-control"
                   value={this.state.lernsektor}
                   onChange={this.handleLernsektorChange}
+                  required
                 >
                   <option value="Medizin">Medizin</option>
                   <option value="Magen">Magen</option>
@@ -189,7 +196,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  
+  console.log("create Question", dispatch);
   return {
     createQuestion: question => dispatch(createQuestion(question))
   };

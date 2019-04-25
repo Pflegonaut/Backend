@@ -47,7 +47,6 @@ class Bearbeitung extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log("state", state);
   return {
     questions: state.firestore.ordered.questions,
     auth: state.firebase.auth
