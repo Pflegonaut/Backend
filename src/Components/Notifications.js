@@ -30,10 +30,9 @@ class Notifications extends Component {
             </>
        );
    }
-};
+}
 
 const mapStateToProps = state => {
-    console.log("Notificatiosn", state);
     return {
       notifications: state.firestore.ordered.notifications,
     };
