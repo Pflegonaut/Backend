@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { Btn } from "../Theme/_buttons";
 
+import * as ReactBootstrap from 'react-bootstrap';
+
 class Eingabe extends Component {
   constructor(props) {
     super(props);
@@ -53,35 +55,37 @@ class Eingabe extends Component {
       <>
         <div className="container">
           <div className="row mt-4">
-            <div className="col-sm" />
-            <div className="col-sm">
+            <div className="col-sm-8">
               <form onSubmit={this.sendQuestion}>
                 <div className="form-group">
                   <label for="question">Frage</label>
                   <textarea
                     class="form-control"
                     id="question"
+                    placeholder="Frage"
                     onChange={this.handleChange}
                     value={this.state.question}
+                    required
                   />
                 </div>
                 <div className="form-group">
                   <label for="answerOne">Antwort 1:</label>
-                  <input
-                    type="text"
-                    className="form-control"
+                  <textarea
+                    class="form-control"
+                    rows="1"
                     id="answerOne"
                     placeholder="Antwort"
-                    value={this.state.answerOne}
                     onChange={this.handleChange}
+                    value={this.state.answerOne}
                     required
                   />
                 </div>
                 <div className="form-group">
                   <label for="answerTwo">Antwort 2:</label>
-                  <input
+                  <textarea
                     type="text"
                     className="form-control"
+                    rows="1"
                     id="answerTwo"
                     placeholder="Antwort"
                     value={this.state.answerTwo}
@@ -91,8 +95,9 @@ class Eingabe extends Component {
                 </div>
                 <div className="form-group">
                   <label for="answerThree">Antwort 3:</label>
-                  <input
+                  <textarea
                     type="text"
+                    rows="1"
                     className="form-control"
                     id="answerThree"
                     placeholder="Antwort"
@@ -103,8 +108,9 @@ class Eingabe extends Component {
                 </div>
                 <div className="form-group">
                   <label for="answerFour">Antwort 4:</label>
-                  <input
+                  <textarea
                     type="text"
+                    rows="1"
                     className="form-control"
                     id="answerFour"
                     placeholder="Antwort"
@@ -117,6 +123,7 @@ class Eingabe extends Component {
                   <label for="correctAnswer">Richtige Antwort</label>
                   <select
                     className="form-control"
+                    rows="1"
                     id="correctAnswer"
                     value={this.state.correctAnswer}
                     onChange={this.handleChange}
@@ -183,10 +190,16 @@ class Eingabe extends Component {
                     value={this.state.notiz}
                   />
                 </div>
-                <Btn className="mt-4">Speichern</Btn>
+
+                <ReactBootstrap.Button
+                  size="lg"
+                  block>
+                  Frage eintragen
+                </ReactBootstrap.Button>
+
               </form>
             </div>
-            <div className="col-sm" />
+            <div className="col-sm-4" />
           </div>
         </div>
       </>

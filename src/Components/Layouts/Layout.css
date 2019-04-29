@@ -1,0 +1,13 @@
+.headerJumbotron {
+  background-image: url("../img/HeaderJumbotron.png");
+  background-size: cover;
+  background-position: center-top;
+  padding: 110px 0px;
+}
+
+.footerJumbotron {
+  background-image: url("../img/FooterJumbotron.png");
+  background-size: cover;
+  background-position: center;
+  padding: 35px 0px;
+}
