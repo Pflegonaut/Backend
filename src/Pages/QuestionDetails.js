@@ -4,14 +4,14 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { Btn } from "../Theme/_buttons";
-import moment from "moment";
+import TimelineComponent from '../Components/TimelineComponent';
 
 class QuestionDetails extends Component {
-  handleChange(e) {
-    this.setState({
-      [e.target.id]: e.target.value
-    });
-  }
+  // handleChange(e) {
+  //   this.setState({
+  //     [e.target.id]: e.target.value
+  //   });
+  // }
 
   render() {
     const { question, auth } = this.props;
@@ -29,6 +29,7 @@ class QuestionDetails extends Component {
                   <textarea
                     class="form-control"
                     id="question"
+                    onChange={this.handleChange}
                     value={question.question}
                   />
                 </div>
@@ -39,6 +40,7 @@ class QuestionDetails extends Component {
                     className="form-control"
                     id="answerOne"
                     placeholder="Antwort"
+                    onChange={this.handleChange}
                     value={question.answerOne}
                     required
                   />
@@ -50,6 +52,7 @@ class QuestionDetails extends Component {
                     className="form-control"
                     id="answerTwo"
                     placeholder="Antwort"
+                    onChange={this.handleChange}
                     value={question.answerTwo}
                     required
                   />
@@ -61,6 +64,7 @@ class QuestionDetails extends Component {
                     className="form-control"
                     id="answerThree"
                     placeholder="Antwort"
+                    onChange={this.handleChange}
                     value={question.answerThree}
                     required
                   />
@@ -72,6 +76,7 @@ class QuestionDetails extends Component {
                     className="form-control"
                     id="answerFour"
                     placeholder="Antwort"
+                    onChange={this.handleChange}
                     value={question.answerFour}
                     required
                   />
@@ -81,6 +86,7 @@ class QuestionDetails extends Component {
                   <select
                     className="form-control"
                     id="correctAnswer"
+                    onChange={this.handleChange}
                     value={question.correctAnswer}
                     required
                   >
@@ -95,6 +101,7 @@ class QuestionDetails extends Component {
                   <select
                     className="form-control"
                     value={question.lernsektor}
+                    onChange={this.handleChange}
                     id="lernsektor"
                     required
                   >
@@ -109,6 +116,7 @@ class QuestionDetails extends Component {
                   <select
                     className="form-control"
                     value={question.schwierigkeitslevel}
+                    onChange={this.handleChange}
                     id="schwierigkeitslevel"
                     required
                   >
@@ -123,6 +131,7 @@ class QuestionDetails extends Component {
                     className="form-control"
                     value={question.lernbereich}
                     id="lernbereich"
+                    onChange={this.handleChange}
                     required
                   >
                     <option value="bewegungsaparat">bewegungsaparat</option>
@@ -138,6 +147,7 @@ class QuestionDetails extends Component {
                   <textarea
                     class="form-control"
                     id="notiz"
+                    onChange={this.handleChange}
                     value={question.notiz}
                   />
                 </div>
@@ -145,16 +155,11 @@ class QuestionDetails extends Component {
               </form>
             </div>
             <div className="col-sm">
-              <h3 className="mt-2">Timeline</h3>
-              <p>
-                Erstellt am:{" "}
-                {moment(question.createdAt.toDate()).format("Do MMMM YYYY")}
-              </p>
-              <p>
-                Update am:{" "}
-                {moment(question.createdAt.toDate()).format("Do MMMM YYYY")}{" "}
-                durch {question.authorFirstName + question.authorLastName}
-              </p>
+              <TimelineComponent
+                 createdAt={question.createdAt}
+                 authorFirstName={question.authorFirstName}
+                 authorLastName={question.authorLastName}                       
+              />
             </div>
           </div>
         </div>

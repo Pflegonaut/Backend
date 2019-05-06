@@ -26,7 +26,7 @@ class Bearbeitung extends Component {
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm" />
-            <div class="col-sm">
+            <div class="col-sm mt-2">
               {questions &&
                 questions.map(question => {
                   return (

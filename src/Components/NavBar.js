@@ -15,9 +15,11 @@ import { signOut } from "../Store/actions/authActions";
 import logo from "../Assets/logo.png";
 import styled from "styled-components";
 import Notifications from "./Notifications";
+import { Btn } from "../Theme/_buttons";
 
 const Nav = styled.nav`
   background-color: ${props => props.theme.primaryColor};
+  width: 100%;
 `;
 
 const ProfilePicture = styled.button`
@@ -172,6 +174,17 @@ class NavBar extends Component {
                   &nbsp;&nbsp;Kontrollieren
                 </NavLink>
               </li>
+              <form className="form-inline my-2 my-lg-0 ml-3">
+                <input
+                  className="form-control mr-sm-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <Btn className="my-2 my-sm-0" type="submit">
+                  Search
+                </Btn>
+              </form>
             </ul>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">

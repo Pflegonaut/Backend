@@ -4,67 +4,42 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import logo from "../Assets/logo.png";
 import styled from "styled-components";
-import { slideDown, hovering } from "../Theme/_animations";
-
-const Btn = styled.button`
-  background-color: ${props => props.theme.secondaryColor};
-  color: ${props => props.theme.primaryColor};
-  padding: 0.2rem 4rem;
-  font-size: 0.8rem;
-  border: 0.2rem solid ${props => props.theme.secondaryColor};
-  border-radius: 3rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  animation: ${slideDown} 0.8s ease;
-  :hover {
-    background-color: ${props => props.theme.secondaryColor};
-    color: ${props => props.theme.primaryColor};
-    border: 0.2rem solid ${props => props.theme.secondaryColor};
-    transition: all 0.2s ease;
-    transform: scale(1.1);
-  }
-  :focus {
-    outline: none;
-  }
-`;
+import {Btn} from '../Theme/_buttons';
+import {StyledLogo} from '../Theme/_main';
 
 const Background = styled.div`
-  background-color: ${props => props.theme.primaryColor};
   height: 100vh;
 `;
 
-const StyledLogo = styled.img`
-  animation-name: ${hovering};
-  animation-duration: 3s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-`;
-
 class signUpUser extends Component {
- state = {
+ constructor(props){
+   super(props);
+   this.state = {
     firstname: "",
     lastname: "",
     email: "",
     password: "",
     role: "redakteur"
   };
+ }
 
-  handleChange = e => {
+  handleChange = (e) =>{
     this.setState({
       [e.target.id]: e.target.value
     });
-  };
+  }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.signUp(this.state);
-  };
+    console.log(this.props);
+  }
 
   render() {
-    const { auth } = this.props;
+    const { auth, authError } = this.props;
     //Protect the edit page and redirect to te login
+    console.log(authError);
     if (!auth.uid) return <Redirect to="/" />;
-    console.log(this.props);
     return (
       <>
         <Background className="container-fluid">

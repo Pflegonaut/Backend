@@ -21,7 +21,7 @@ class Eingabe extends Component {
     };
   }
 
-  sendQuestion = e => {
+  sendQuestion = (e) => {
     e.preventDefault();
     //Send Data to store
     this.props.createQuestion(this.state);
@@ -37,16 +37,16 @@ class Eingabe extends Component {
       schwierigkeitslevel: "leicht",
       lernbereich: "bewegungsapperat"
     });
-  };
+  }
 
-  handleChange = e => {
+  handleChange = (e) =>{
     this.setState({
       [e.target.id]: e.target.value
     });
-  };
+  }
 
   render() {
-    const { auth } = this.props;
+    const { auth, authError } = this.props;
     //Protect the edit page and redirect to te login
     if (!auth.uid) return <Redirect to="/" />;
     return (
@@ -184,6 +184,7 @@ class Eingabe extends Component {
                   />
                 </div>
                 <Btn className="mt-4">Speichern</Btn>
+                <p>{authError}</p>
               </form>
             </div>
             <div className="col-sm" />
@@ -201,7 +202,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  console.log("create Question", dispatch);
   return {
     createQuestion: question => dispatch(createQuestion(question))
   };

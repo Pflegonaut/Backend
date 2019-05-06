@@ -32,7 +32,10 @@ const questionsReducer = (state = initState, action) => {
       return state;
     case "ADD_QUESTION_ERROR":
       console.log(action.error);
-      return state;
+      return {
+        ...state,
+        authError: "Frage hinzufügen fehlgeschlagen"
+      };
     default:
       return state;
   }

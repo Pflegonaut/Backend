@@ -46,6 +46,12 @@ const StyledLogo = styled.img`
   animation-timing-function: ease-in-out;
 `;
 
+const AuthError = styled.p`
+  color: red;
+  text-align: center;
+  margin-top: 5%;
+`;
+
 
 
 class Login extends Component {
@@ -67,7 +73,7 @@ class Login extends Component {
 
   render() {
     
-    const { auth } = this.props;
+    const { auth, authError } = this.props;
     if (auth.uid) return <Redirect to="/dashboard" />;
     return (
       <>
@@ -109,6 +115,7 @@ class Login extends Component {
                 Login
               </Btn>
             </form>
+            <AuthError>{authError}</AuthError>
               </div>
               <div className="col-sm"></div>
             </div>
