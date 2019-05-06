@@ -4,14 +4,17 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { Btn } from "../Theme/_buttons";
-import TimelineComponent from '../Components/TimelineComponent';
+import TimelineComponent from "../Components/TimelineComponent";
 
 class QuestionDetails extends Component {
-  // handleChange(e) {
-  //   this.setState({
-  //     [e.target.id]: e.target.value
-  //   });
-  // }
+  handleUpdate = e => {
+    e.preventDefault();
+    const newQuestion = this.getQuestion.value;
+    const data = {
+      newQuestion
+    };
+    //TODO: - Dispatch update question
+  };
 
   render() {
     const { question, auth } = this.props;
@@ -30,7 +33,8 @@ class QuestionDetails extends Component {
                     class="form-control"
                     id="question"
                     onChange={this.handleChange}
-                    value={question.question}
+                    defaultValue={question.question}
+                    ref={input => (this.getQuestion = input)}
                   />
                 </div>
                 <div className="form-group">
@@ -41,7 +45,7 @@ class QuestionDetails extends Component {
                     id="answerOne"
                     placeholder="Antwort"
                     onChange={this.handleChange}
-                    value={question.answerOne}
+                    defaultValue={question.answerOne}
                     required
                   />
                 </div>
@@ -53,7 +57,7 @@ class QuestionDetails extends Component {
                     id="answerTwo"
                     placeholder="Antwort"
                     onChange={this.handleChange}
-                    value={question.answerTwo}
+                    defaultValue={question.answerTwo}
                     required
                   />
                 </div>
@@ -65,7 +69,7 @@ class QuestionDetails extends Component {
                     id="answerThree"
                     placeholder="Antwort"
                     onChange={this.handleChange}
-                    value={question.answerThree}
+                    defaultValue={question.answerThree}
                     required
                   />
                 </div>
@@ -77,7 +81,7 @@ class QuestionDetails extends Component {
                     id="answerFour"
                     placeholder="Antwort"
                     onChange={this.handleChange}
-                    value={question.answerFour}
+                    defaultValue={question.answerFour}
                     required
                   />
                 </div>
@@ -87,7 +91,7 @@ class QuestionDetails extends Component {
                     className="form-control"
                     id="correctAnswer"
                     onChange={this.handleChange}
-                    value={question.correctAnswer}
+                    defaultValue={question.correctAnswer}
                     required
                   >
                     <option value="1">1</option>
@@ -156,9 +160,9 @@ class QuestionDetails extends Component {
             </div>
             <div className="col-sm">
               <TimelineComponent
-                 createdAt={question.createdAt}
-                 authorFirstName={question.authorFirstName}
-                 authorLastName={question.authorLastName}                       
+                createdAt={question.createdAt}
+                authorFirstName={question.authorFirstName}
+                authorLastName={question.authorLastName}
               />
             </div>
           </div>

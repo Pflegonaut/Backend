@@ -30,6 +30,9 @@ const questionsReducer = (state = initState, action) => {
     case "ADD_QUESTION":
       console.log("added Question", action.question);
       return state;
+    case "UPDATE_QUESTION":
+      console.log("updatedQuestion", action.question);
+      return state;
     case "ADD_QUESTION_ERROR":
       console.log(action.error);
       return {
