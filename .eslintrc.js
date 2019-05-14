@@ -1,30 +1,32 @@
 module.exports = {
+    "parser": "babel-eslint",
     "env": {
         "browser": true,
         "es6": true
     },
-    "extends": "eslint:recommended",
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+    "settings": {
+        "ecmascript": 6,
+        "jsx": true
     },
     "parserOptions": {
+        "ecmaVersion": 2017,
         "ecmaFeatures": {
+            "experimentalObjectSpread": true,
+            "experimentalDecorators": true,
             "jsx": true
         },
-        "ecmaVersion": 2018,
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
     ],
+    "extends": "airbnb",
     "rules": {
-        "no-const-assign": "warn",
-        "no-this-before-super": "warn",
-        "no-undef": "warn",
-        "no-unreachable": "warn",
-        "no-unused-vars": "warn",
-        "constructor-super": "warn",
-        "valid-typeof": "warn"
-    }
+        "react/prop-types": 0,
+        "react/jsx-filename-extension": 0,
+        "no-return-assign": 0,
+        "jsx-a11y/label-has-associated-control": 0,
+        "jsx-a11y/label-has-for": 0
+    },
+
 };

@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { slideDown } from "./_animations";
+import styled from 'styled-components';
+import { slideDown } from './_animations';
 
-export const Btn = styled.button`
+export default styled.button`
   background-color: ${props => props.theme.secondaryColor};
   color: ${props => props.theme.primaryColor};
   padding: 0.2rem 4rem;

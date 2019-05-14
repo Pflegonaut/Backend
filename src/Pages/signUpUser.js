@@ -1,43 +1,46 @@
-import React, { Component } from "react";
-import { signUp } from "../Store/actions/authActions";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-import logo from "../Assets/logo.png";
-import styled from "styled-components";
-import {Btn} from '../Theme/_buttons';
-import {StyledLogo} from '../Theme/_main';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/label-has-for */
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import styled from 'styled-components';
+import logo from '../Assets/logo.png';
+import { signUp } from '../Store/actions/authActions';
+import Btn from '../Theme/_buttons';
+import { StyledLogo } from '../Theme/_main';
 
 const Background = styled.div`
   height: 100vh;
 `;
 
 class signUpUser extends Component {
- constructor(props){
-   super(props);
-   this.state = {
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    role: "redakteur"
-  };
- }
-
-  handleChange = (e) =>{
-    this.setState({
-      [e.target.id]: e.target.value
-    });
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstname: '',
+      lastname: '',
+      email: '',
+      password: '',
+      role: 'redakteur',
+    };
   }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.signUp(this.state);
+    signUp(this.state);
     console.log(this.props);
-  }
+  };
 
   render() {
     const { auth, authError } = this.props;
-    //Protect the edit page and redirect to te login
+    const { role } = this.state;
+    // Protect the edit page and redirect to te login
     console.log(authError);
     if (!auth.uid) return <Redirect to="/" />;
     return (
@@ -54,62 +57,73 @@ class signUpUser extends Component {
               />
               <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                  <label for="exampleInputEmail1">Email Addresse</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter email"
-                    onChange={this.handleChange}
-                  />
+                  <label htmlFor="exampleInputEmail1">
+                    Email Addresse
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                      onChange={this.handleChange}
+                    />
+                  </label>
                   <small id="emailHelp" className="form-text text-muted">
                     Wir teilen deine E-Mail-Adresse mit niemandem
                   </small>
                 </div>
                 <div className="form-group">
-                  <label for="exampleInputPassword1">Passwort</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    placeholder="Passwort"
-                    onChange={this.handleChange}
-                  />
+                  <label htmlFor="exampleInputPassword1">
+                    Passwort
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      placeholder="Passwort"
+                      onChange={this.handleChange}
+                    />
+                  </label>
                 </div>
                 <div className="form-group">
-                  <label for="exampleInputPassword1">Vorname</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="firstname"
-                    placeholder="Vorname"
-                    onChange={this.handleChange}
-                  />
+                  <label htmlFor="exampleInputPassword1">
+                    Vorname
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="firstname"
+                      placeholder="Vorname"
+                      onChange={this.handleChange}
+                    />
+                  </label>
                 </div>
                 <div className="form-group">
-                  <label for="exampleInputPassword1">Nachname</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="lastname"
-                    placeholder="Nachname"
-                    onChange={this.handleChange}
-                  />
+                  <label htmlFor="exampleInputPassword1">
+                    Nachname
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="lastname"
+                      placeholder="Nachname"
+                      onChange={this.handleChange}
+                    />
+                  </label>
                 </div>
                 <div className="form-group">
-                  <label for="exampleInputPassword1">Nutzerrolle</label>
-                  <select
-                    className="form-control"
-                    id="role"
-                    value={this.state.role}
-                    onChange={this.handleChange}
-                  >
-                    <option value="redakteur">Redakteur</option>
-                    <option value="lehrer">Lehrer</option>
-                    <option value="admin">Admin</option>
-                  </select>
+                  <label htmlFor="exampleInputPassword1">
+                    Nutzerrolle
+                    <select
+                      className="form-control"
+                      id="role"
+                      value={role}
+                      onChange={this.handleChange}
+                    >
+                      <option value="redakteur">Redakteur</option>
+                      <option value="lehrer">Lehrer</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </label>
                 </div>
+
                 <Btn type="submit" className="btn btn-primary">
                   Submit
                 </Btn>
@@ -123,19 +137,15 @@ class signUpUser extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    auth: state.firebase.auth
-  };
-};
+const mapStateToProps = state => ({
+  auth: state.firebase.auth,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    signUp: newUser => dispatch(signUp(newUser))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  signUp: newUser => dispatch(signUp(newUser)),
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(signUpUser);

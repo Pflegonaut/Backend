@@ -6,13 +6,11 @@ const Container = styled.div`
      color: white;
 `;
 
-const AddedQuestions = () => {
-    return (
-        <Container>
-            <p>Fragen hinzugefügt:</p>
-            <p>12.</p>
-        </Container>
-    );
-};
+const AddedQuestions = () => (
+  <Container>
+    <p>Fragen hinzugefügt:</p>
+    <p>12.</p>
+  </Container>
+);
 
 export default AddedQuestions;
