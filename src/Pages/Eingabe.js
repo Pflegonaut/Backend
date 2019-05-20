@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import createQuestionAction from '../Store/actions/questionsActions';
+import { createQuestionAction } from '../Store/actions/questionsActions';
 import Btn from '../Theme/_buttons';
 
 class Eingabe extends Component {

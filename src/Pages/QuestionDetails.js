@@ -6,26 +6,50 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
 import Btn from '../Theme/_buttons';
+import { deleteQuestionAction } from '../Store/actions/questionsActions';
 import TimelineComponent from '../Components/TimelineComponent';
 
 class QuestionDetails extends Component {
+  state = {
+    deleted: false,
+  }
+
   handleUpdate = (e) => {
     e.preventDefault();
 
     // TODO: - Dispatch update question
   };
 
+  handleDelete = () => {
+    if (window.confirm('Willst du diese Frage wirklich dauerhaft löschen?')) {
+      const { deleteQuestion } = this.props;
+      deleteQuestion(this.props.location.pathname.slice(9));
+      this.setState({
+        deleted: true,
+      });
+    }
+  };
+
   render() {
-    const { question, auth } = this.props;
+    const { deleted } = this.state;
+    const { question, auth, role } = this.props;
+    if (deleted) return <Redirect to="/dashboard" />;
     if (!auth.uid) return <Redirect to="/" />;
     if (question) {
       return (
         <div className="container">
           <div className="row">
-            <div className="col-sm" />
+            <div className="col-sm">
+              {role && role === 'admin' ? (
+                <Btn className="mt-5" onClick={this.handleDelete}>
+                Frage Löschen
+                </Btn>
+              ) : null}
+
+            </div>
             <div className="col-sm">
               <h3 className="mt-2">Bearbeiten</h3>
-              <form>
+              <form onSubmit={this.handleUpdate}>
                 <div className="form-group">
                   <label htmlFor="question">
                     Frage
@@ -199,11 +223,19 @@ const mapStateToProps = (state, ownProps) => {
   return {
     question,
     auth: state.firebase.auth,
+    role: state.firebase.profile.role,
   };
 };
 
+const mapDispatchToProps = dispatch => ({
+  deleteQuestion: question => dispatch(deleteQuestionAction(question)),
+});
+
 export default compose(
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
   firestoreConnect([
     {
       collection: 'questions',
