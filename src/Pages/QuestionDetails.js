@@ -6,29 +6,84 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
 import Btn from '../Theme/_buttons';
-import { deleteQuestionAction } from '../Store/actions/questionsActions';
+import {
+  deleteQuestionAction,
+  createQuestionAction,
+  updateQuestionAction,
+} from '../Store/actions/questionsActions';
 import TimelineComponent from '../Components/TimelineComponent';
 
 class QuestionDetails extends Component {
   state = {
+    question: '',
+    answerOne: '',
+    answerTwo: '',
+    answerThree: '',
+    answerFour: '',
+    correctAnswer: 1,
+    lernsektor: 'Medizin',
+    notiz: '',
+    schwierigkeitslevel: 'leicht',
+    lernbereich: 'bewegungsapperat',
     deleted: false,
+    url: '',
+  };
+
+  componentDidMount() {
+    const {
+      question,
+      answerOne,
+      answerTwo,
+      answerThree,
+      answerFour,
+      correctAnswer,
+      lernsektor,
+      notiz,
+      schwierigkeitslevel,
+      lernbereich,
+      // eslint-disable-next-line react/destructuring-assignment
+    } = this.props.question;
+    this.setState({
+      question,
+      answerOne,
+      answerTwo,
+      answerThree,
+      answerFour,
+      correctAnswer,
+      lernsektor,
+      notiz: notiz === undefined ? '' : notiz,
+      schwierigkeitslevel:
+        schwierigkeitslevel === undefined ? '' : schwierigkeitslevel,
+      lernbereich: lernbereich === undefined ? '' : lernbereich,
+    });
+
+    const url = this.props.match.url.split('/');
+    this.setState({
+      url,
+    });
   }
 
   handleUpdate = (e) => {
     e.preventDefault();
-
-    // TODO: - Dispatch update question
+    this.props.updateQuestionAction(this.state);
   };
 
   handleDelete = () => {
     if (window.confirm('Willst du diese Frage wirklich dauerhaft löschen?')) {
       const { deleteQuestion } = this.props;
+      // eslint-disable-next-line react/destructuring-assignment
       deleteQuestion(this.props.location.pathname.slice(9));
       this.setState({
         deleted: true,
       });
     }
   };
+
+  handleChange(e) {
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  }
 
   render() {
     const { deleted } = this.state;
@@ -42,10 +97,9 @@ class QuestionDetails extends Component {
             <div className="col-sm">
               {role && role === 'admin' ? (
                 <Btn className="mt-5" onClick={this.handleDelete}>
-                Frage Löschen
+                  Frage Löschen
                 </Btn>
               ) : null}
-
             </div>
             <div className="col-sm">
               <h3 className="mt-2">Bearbeiten</h3>
@@ -56,7 +110,7 @@ class QuestionDetails extends Component {
                     <textarea
                       className="form-control"
                       id="question"
-                      onChange={this.handleChange}
+                      onChange={e => this.handleChange(e)}
                       defaultValue={question.question}
                       ref={input => (this.getQuestion = input)}
                     />
@@ -70,7 +124,7 @@ class QuestionDetails extends Component {
                       className="form-control"
                       id="answerOne"
                       placeholder="Antwort"
-                      onChange={this.handleChange}
+                      onChange={e => this.handleChange(e)}
                       defaultValue={question.answerOne}
                       required
                     />
@@ -84,7 +138,7 @@ class QuestionDetails extends Component {
                       className="form-control"
                       id="answerTwo"
                       placeholder="Antwort"
-                      onChange={this.handleChange}
+                      onChange={e => this.handleChange(e)}
                       defaultValue={question.answerTwo}
                       required
                     />
@@ -98,7 +152,7 @@ class QuestionDetails extends Component {
                       className="form-control"
                       id="answerThree"
                       placeholder="Antwort"
-                      onChange={this.handleChange}
+                      onChange={e => this.handleChange(e)}
                       defaultValue={question.answerThree}
                       required
                     />
@@ -112,7 +166,7 @@ class QuestionDetails extends Component {
                       className="form-control"
                       id="answerFour"
                       placeholder="Antwort"
-                      onChange={this.handleChange}
+                      onChange={e => this.handleChange(e)}
                       defaultValue={question.answerFour}
                       required
                     />
@@ -124,7 +178,7 @@ class QuestionDetails extends Component {
                     <select
                       className="form-control"
                       id="correctAnswer"
-                      onChange={this.handleChange}
+                      onChange={e => this.handleChange(e)}
                       defaultValue={question.correctAnswer}
                       required
                     >
@@ -141,7 +195,7 @@ class QuestionDetails extends Component {
                     <select
                       className="form-control"
                       value={question.lernsektor}
-                      onChange={this.handleChange}
+                      onChange={e => this.handleChange(e)}
                       id="lernsektor"
                       required
                     >
@@ -158,7 +212,7 @@ class QuestionDetails extends Component {
                     <select
                       className="form-control"
                       value={question.schwierigkeitslevel}
-                      onChange={this.handleChange}
+                      onChange={e => this.handleChange(e)}
                       id="schwierigkeitslevel"
                       required
                     >
@@ -175,7 +229,7 @@ class QuestionDetails extends Component {
                       className="form-control"
                       value={question.lernbereich}
                       id="lernbereich"
-                      onChange={this.handleChange}
+                      onChange={e => this.handleChange(e)}
                       required
                     >
                       <option value="bewegungsaparat">bewegungsaparat</option>
@@ -193,12 +247,14 @@ class QuestionDetails extends Component {
                     <textarea
                       className="form-control"
                       id="notiz"
-                      onChange={this.handleChange}
-                      value={question.notiz}
+                      onChange={e => this.handleChange(e)}
+                      defaultValue={question.notiz}
                     />
                   </label>
                 </div>
-                <Btn className="mt-4">Update</Btn>
+                <Btn className="mt-4" onClick={e => this.handleUpdate(e)}>
+                  Update
+                </Btn>
               </form>
             </div>
             <div className="col-sm">
@@ -229,6 +285,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   deleteQuestion: question => dispatch(deleteQuestionAction(question)),
+  createQuestion: question => dispatch(createQuestionAction(question)),
+  updateQuestionAction: question => dispatch(updateQuestionAction(question)),
 });
 
 export default compose(
