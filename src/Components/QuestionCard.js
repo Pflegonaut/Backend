@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons';
 
 const Card = styled.div`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -44,35 +44,36 @@ const Lernbereich = styled.div`
   float: right;
 `;
 
-const QuestionCard = ({ question }) => {
-  return (
-    <>
-      <Card className="card mb-2">
-        {question.schwierigkeitslevel &&
-        question.schwierigkeitslevel === "leicht" ? (
+const QuestionCard = ({ question }) => (
+  <>
+    <Card className="carnpd mb-2">
+      {question.schwierigkeitslevel
+        && question.schwierigkeitslevel === 'leicht' ? (
           <LevelTagLeicht>Leicht</LevelTagLeicht>
-        ) : question.schwierigkeitslevel === "mittel" ? (
+        ) : question.schwierigkeitslevel === 'mittel' ? (
           <LevelTagMittel>Mittel</LevelTagMittel>
-        ) : question.schwierigkeitslevel === "schwer" ? (
+        ) : question.schwierigkeitslevel === 'schwer' ? (
           <LevelTagSchwer>Schwer</LevelTagSchwer>
         ) : null}
-        <div className="card-body">
-          <h4 className="text-center">{question.question}</h4>
-          <div>
-            <Lernbereich>
-              <FontAwesomeIcon icon={faChalkboardTeacher} className="icon" />
-              &nbsp;&nbsp; {question.lernsektor}
-            </Lernbereich>
-          </div>
-          <p>
-            <FontAwesomeIcon icon={faUser} className="icon" />
-            &nbsp;&nbsp;
-            {question.authorFirstName} {question.authorLastName}
-          </p>
+      <div className="card-body">
+        <h4 className="text-center">{question.question}</h4>
+        <div>
+          <Lernbereich>
+            <FontAwesomeIcon icon={faChalkboardTeacher} className="icon" />
+              &nbsp;&nbsp;
+            {question.lernsektor}
+          </Lernbereich>
         </div>
-      </Card>
-    </>
-  );
-};
+        <p>
+          <FontAwesomeIcon icon={faUser} className="icon" />
+            &nbsp;&nbsp;
+          {question.authorFirstName}
+          {' '}
+          {question.authorLastName}
+        </p>
+      </div>
+    </Card>
+  </>
+);
 
 export default QuestionCard;

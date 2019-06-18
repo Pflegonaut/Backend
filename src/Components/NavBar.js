@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUser,
   faPlusSquare,
@@ -7,15 +7,15 @@ import {
   faPencilAlt,
   faGlasses,
   faTachometerAlt,
-  faBell
-} from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
-import { connect } from "react-redux";
-import { signOut } from "../Store/actions/authActions";
-import logo from "../Assets/logo.png";
-import styled from "styled-components";
-import Notifications from "./Notifications";
-import { Btn } from "../Theme/_buttons";
+  faBell,
+} from '@fortawesome/free-solid-svg-icons';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import { signOutAction } from '../Store/actions/authActions';
+import logo from '../Assets/logo.png';
+import Notifications from './Notifications';
+import Btn from '../Theme/_buttons';
 
 const Nav = styled.nav`
   background-color: ${props => props.theme.primaryColor};
@@ -57,10 +57,8 @@ class NavBar extends Component {
   constructor() {
     super();
     this.state = {
-      isSignedIn: true,
       dropdownShown: false,
       notificationsShown: false,
-      photoURL: ""
     };
     this.showMenu = this.showMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
@@ -68,20 +66,15 @@ class NavBar extends Component {
     this.closeNotifications = this.closeNotifications.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({
-      photoURL: this.props.photoURL
-    });
-  }
   showMenu(e) {
     e.preventDefault();
     this.setState(
       {
-        dropdownShown: true
+        dropdownShown: true,
       },
       () => {
-        document.addEventListener("click", this.closeMenu);
-      }
+        document.addEventListener('click', this.closeMenu);
+      },
     );
   }
 
@@ -89,23 +82,24 @@ class NavBar extends Component {
     if (!this.dropdownMenu.contains(e.target)) {
       this.setState(
         {
-          dropdownShown: false
+          dropdownShown: false,
         },
         () => {
-          document.removeEventListener("click", this.closeMenu);
-        }
+          document.removeEventListener('click', this.closeMenu);
+        },
       );
     }
   }
+
   showNotifications(e) {
     e.preventDefault();
     this.setState(
       {
-        notificationsShown: true
+        notificationsShown: true,
       },
       () => {
-        document.addEventListener("click", this.closeNotifications);
-      }
+        document.addEventListener('click', this.closeNotifications);
+      },
     );
   }
 
@@ -113,16 +107,18 @@ class NavBar extends Component {
     if (!this.notification.contains(e.target)) {
       this.setState(
         {
-          notificationsShown: false
+          notificationsShown: false,
         },
         () => {
-          document.removeEventListener("click", this.closeNotifications);
-        }
+          document.removeEventListener('click', this.closeNotifications);
+        },
       );
     }
   }
 
   render() {
+    const { dropdownShown, notificationsShown } = this.state;
+    const { role, signOut } = this.props;
     return (
       <>
         <Nav className="navbar navbar-expand-lg navbar-dark">
@@ -207,10 +203,10 @@ class NavBar extends Component {
             </ul>
           </div>
         </Nav>
-        {this.state.dropdownShown ? (
+        {dropdownShown ? (
           <Dropdown
             className="nav flex-column"
-            ref={e => {
+            ref={(e) => {
               this.dropdownMenu = e;
             }}
           >
@@ -220,7 +216,7 @@ class NavBar extends Component {
                 &nbsp;&nbsp;Profil
               </a>
             </li>
-            {this.props.role && this.props.role === "admin" ? (
+            {role && role === 'admin' ? (
               <li className="nav-item">
                 <NavLink className="nav-link" to="/pflegonautwerden">
                   <FontAwesomeIcon icon={faPlusSquare} className="icon" />
@@ -229,17 +225,17 @@ class NavBar extends Component {
               </li>
             ) : null}
             <li className="nav-item">
-              <a className="nav-link" href="/" onClick={this.props.signOut}>
+              <a className="nav-link" href="/" onClick={signOut}>
                 <FontAwesomeIcon icon={faSignOutAlt} className="icon" />
                 &nbsp;&nbsp;Logout
               </a>
             </li>
           </Dropdown>
         ) : null}
-        {this.state.notificationsShown ? (
+        {notificationsShown ? (
           <NotificationDropdown
             className="nav flex-column"
-            ref={e => {
+            ref={(e) => {
               this.notification = e;
             }}
           >
@@ -251,20 +247,16 @@ class NavBar extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    role: state.firebase.profile.role,
-    auth: state.firebase.auth
-  };
-};
+const mapStateToProps = state => ({
+  role: state.firebase.profile.role,
+  auth: state.firebase.auth,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    signOut: () => dispatch(signOut())
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  signOut: () => dispatch(signOutAction()),
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(NavBar);

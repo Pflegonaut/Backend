@@ -1,53 +1,66 @@
-import React, { Component } from "react";
-import { createQuestion } from "../Store/actions/questionsActions";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { Btn } from "../Theme/_buttons";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { createQuestionAction } from '../Store/actions/questionsActions';
+import Btn from '../Theme/_buttons';
 
 class Eingabe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      question: "",
-      answerOne: "",
-      answerTwo: "",
-      answerThree: "",
-      answerFour: "",
+      question: '',
+      answerOne: '',
+      answerTwo: '',
+      answerThree: '',
+      answerFour: '',
       correctAnswer: 1,
-      lernsektor: "Medizin",
-      notiz: "",
-      schwierigkeitslevel: "leicht",
-      lernbereich: "bewegungsapperat"
+      lernsektor: 'Medizin',
+      notiz: '',
+      schwierigkeitslevel: 'leicht',
+      lernbereich: 'bewegungsapperat',
     };
   }
 
   sendQuestion = (e) => {
     e.preventDefault();
-    //Send Data to store
-    this.props.createQuestion(this.state);
+    // Send Data to store
+    const { createQuestion } = this.props;
+    createQuestion(this.state);
     this.setState({
-      question: "",
-      answerOne: "",
-      answerTwo: "",
-      answerThree: "",
-      answerFour: "",
+      question: '',
+      answerOne: '',
+      answerTwo: '',
+      answerThree: '',
+      answerFour: '',
       correctAnswer: 1,
-      lernsektor: "Medizin",
-      notiz: "",
-      schwierigkeitslevel: "leicht",
-      lernbereich: "bewegungsapperat"
+      lernsektor: 'Medizin',
+      notiz: '',
+      schwierigkeitslevel: 'leicht',
+      lernbereich: 'bewegungsapperat',
     });
-  }
+  };
 
-  handleChange = (e) =>{
+  handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
-  }
+  };
 
   render() {
     const { auth, authError } = this.props;
-    //Protect the edit page and redirect to te login
+    const {
+      question,
+      answerOne,
+      answerTwo,
+      answerThree,
+      answerFour,
+      correctAnswer,
+      lernsektor,
+      schwierigkeitslevel,
+      lernbereich,
+      notiz,
+    } = this.state;
+    // Protect the edit page and redirect to te login
     if (!auth.uid) return <Redirect to="/" />;
     return (
       <>
@@ -57,68 +70,68 @@ class Eingabe extends Component {
             <div className="col-sm">
               <form onSubmit={this.sendQuestion}>
                 <div className="form-group">
-                  <label for="question">Frage</label>
+                  <label htmlFor="question">Frage</label>
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     id="question"
                     onChange={this.handleChange}
-                    value={this.state.question}
+                    value={question}
                   />
                 </div>
                 <div className="form-group">
-                  <label for="answerOne">Antwort 1:</label>
+                  <label htmlFor="answerOne">Antwort 1:</label>
                   <input
                     type="text"
                     className="form-control"
                     id="answerOne"
                     placeholder="Antwort"
-                    value={this.state.answerOne}
+                    value={answerOne}
                     onChange={this.handleChange}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label for="answerTwo">Antwort 2:</label>
+                  <label htmlFor="answerTwo">Antwort 2:</label>
                   <input
                     type="text"
                     className="form-control"
                     id="answerTwo"
                     placeholder="Antwort"
-                    value={this.state.answerTwo}
+                    value={answerTwo}
                     onChange={this.handleChange}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label for="answerThree">Antwort 3:</label>
+                  <label htmlFor="answerThree">Antwort 3:</label>
                   <input
                     type="text"
                     className="form-control"
                     id="answerThree"
                     placeholder="Antwort"
-                    value={this.state.answerThree}
+                    value={answerThree}
                     onChange={this.handleChange}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label for="answerFour">Antwort 4:</label>
+                  <label htmlFor="answerFour">Antwort 4:</label>
                   <input
                     type="text"
                     className="form-control"
                     id="answerFour"
                     placeholder="Antwort"
-                    value={this.state.answerFour}
+                    value={answerFour}
                     onChange={this.handleChange}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label for="correctAnswer">Richtige Antwort</label>
+                  <label htmlFor="correctAnswer">Richtige Antwort</label>
                   <select
                     className="form-control"
                     id="correctAnswer"
-                    value={this.state.correctAnswer}
+                    value={correctAnswer}
                     onChange={this.handleChange}
                     required
                   >
@@ -129,10 +142,10 @@ class Eingabe extends Component {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label for="lernsektor">Lernsektor</label>
+                  <label htmlFor="lernsektor">Lernsektor</label>
                   <select
                     className="form-control"
-                    value={this.state.lernsektor}
+                    value={lernsektor}
                     id="lernsektor"
                     onChange={this.handleChange}
                     required
@@ -144,10 +157,12 @@ class Eingabe extends Component {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label for="schwierigkeitslevel">Schwierigkeitslevel</label>
+                  <label htmlFor="schwierigkeitslevel">
+                    Schwierigkeitslevel
+                  </label>
                   <select
                     className="form-control"
-                    value={this.state.schwierigkeitslevel}
+                    value={schwierigkeitslevel}
                     id="schwierigkeitslevel"
                     onChange={this.handleChange}
                     required
@@ -158,29 +173,29 @@ class Eingabe extends Component {
                   </select>
                 </div>
                 <div className="form-group">
-                <label for="lernbereich">Lernbereich</label>
-                <select
-                  className="form-control"
-                  value={this.state.lernbereich}
-                  id="lernbereich"
-                  onChange={this.handleChange}
-                  required
-                >
-                  <option value="bewegungsaparat">bewegungsaparat</option>
-                  <option value="innere Organe">innere Organe</option>
-                  <option value="histologie">histologie</option>
-                  <option value="genetik">genetik</option>
-                  <option value="neurologie">neurologie</option>
-                  <option value="nephrologie">nephrologie</option>
+                  <label htmlFor="lernbereich">Lernbereich</label>
+                  <select
+                    className="form-control"
+                    value={lernbereich}
+                    id="lernbereich"
+                    onChange={this.handleChange}
+                    required
+                  >
+                    <option value="bewegungsaparat">bewegungsaparat</option>
+                    <option value="innere Organe">innere Organe</option>
+                    <option value="histologie">histologie</option>
+                    <option value="genetik">genetik</option>
+                    <option value="neurologie">neurologie</option>
+                    <option value="nephrologie">nephrologie</option>
                   </select>
                 </div>
                 <div className="form-group">
-                  <label for="notiz">Notiz</label>
+                  <label htmlFor="notiz">Notiz</label>
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     id="notiz"
                     onChange={this.handleChange}
-                    value={this.state.notiz}
+                    value={notiz}
                   />
                 </div>
                 <Btn className="mt-4">Speichern</Btn>
@@ -195,19 +210,15 @@ class Eingabe extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    auth: state.firebase.auth
-  };
-};
+const mapStateToProps = state => ({
+  auth: state.firebase.auth,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    createQuestion: question => dispatch(createQuestion(question))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  createQuestion: question => dispatch(createQuestionAction(question)),
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Eingabe);

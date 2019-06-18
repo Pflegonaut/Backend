@@ -1,12 +1,11 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { signIn } from "../Store/actions/authActions";
-import styled from "styled-components";
-import logo from "../Assets/logo.png";
-import { slideDown, hovering } from "../Theme/_animations";
-import { ThemeProvider } from "styled-components";
-import theme from "../Theme/_main";
-import { Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import styled, { ThemeProvider } from 'styled-components';
+import { Redirect } from 'react-router-dom';
+import { signIn } from '../Store/actions/authActions';
+import logo from '../Assets/logo.png';
+import { slideDown, hovering } from '../Theme/_animations';
+import theme from '../Theme/_main';
 
 const Background = styled.div`
   background-color: ${props => props.theme.primaryColor};
@@ -31,7 +30,7 @@ const Btn = styled.button`
   text-transform: uppercase;
   animation: ${slideDown} 0.8s ease;
   :hover {
-    transition: all .2s ease;
+    transition: all 0.2s ease;
     transform: scale(1.1);
   }
   :focus {
@@ -52,27 +51,32 @@ const AuthError = styled.p`
   margin-top: 5%;
 `;
 
-
+const StyledLabel = styled.label`
+  width: 100%;
+`;
 
 class Login extends Component {
-  state = {
-    email: "",
-    password: ""
-  };
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: '',
+    };
+  }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
+    // eslint-disable-next-line react/destructuring-assignment
     this.props.signIn(this.state);
   };
 
   render() {
-    
     const { auth, authError } = this.props;
     if (auth.uid) return <Redirect to="/dashboard" />;
     return (
@@ -80,44 +84,52 @@ class Login extends Component {
         <ThemeProvider theme={theme}>
           <Background className="container-fluid">
             <div className="row">
-              <div className="col-sm"></div>
+              <div className="col-sm" />
               <div className="col-sm">
-              <StyledLogo
-              src={logo}
-              className="img-fluid mx-auto d-block"
-              alt="Pflegonaut Logo"
-              width="80%"
-            />
-            <Heading>Login</Heading>
-            <form onSubmit={this.handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="exampleInputEmail1" className="text-white">Deine E-Mail-Adresse</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                  onChange={this.handleChange}
+                <StyledLogo
+                  src={logo}
+                  className="img-fluid mx-auto d-block"
+                  alt="Pflegonaut Logo"
+                  width="80%"
                 />
+                <Heading>Login</Heading>
+                <form onSubmit={this.handleSubmit}>
+                  <div className="form-group">
+                    <StyledLabel htmlFor="email" className="text-white">
+                      Deine E-Mail-Adresse
+                      <input
+                        type="email"
+                        className="form-control"
+                        name="email"
+                        id="email"
+                        aria-describedby="emailHelp"
+                        placeholder="Enter email"
+                        onChange={this.handleChange}
+                      />
+                    </StyledLabel>
+                  </div>
+                  <div className="form-group">
+                    <StyledLabel
+                      htmlFor="exampleInputPassword1"
+                      className="text-white"
+                    >
+                      Dein Password
+                      <input
+                        type="password"
+                        className="form-control"
+                        id="password"
+                        placeholder="Password"
+                        onChange={this.handleChange}
+                      />
+                    </StyledLabel>
+                  </div>
+                  <Btn type="submit" classNanme="btn btn-primary">
+                    Login
+                  </Btn>
+                </form>
+                <AuthError>{authError}</AuthError>
               </div>
-              <div className="form-group">
-                <label htmlFor="exampleInputPassword1" className="text-white">Dein Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="password"
-                  placeholder="Password"
-                  onChange={this.handleChange}
-                />
-              </div>
-              <Btn type="submit" classNanme="btn btn-primary">
-                Login
-              </Btn>
-            </form>
-            <AuthError>{authError}</AuthError>
-              </div>
-              <div className="col-sm"></div>
+              <div className="col-sm" />
             </div>
           </Background>
         </ThemeProvider>
@@ -126,20 +138,16 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    authError: state.auth.authError,
-    auth: state.firebase.auth
-  };
-};
+const mapStateToProps = state => ({
+  authError: state.auth.authError,
+  auth: state.firebase.auth,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    signIn: creds => dispatch(signIn(creds))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  signIn: creds => dispatch(signIn(creds)),
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Login);
